@@ -1,0 +1,23 @@
+service: capture-payload-demo
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.9
+  lambdaHashingVersion: 20201221
+custom:
+  datadog:
+    apiKey: ${env:DD_API_KEY}
+    enableTracing: true
+    addExtension: true
+    addLayers: true
+    captureLambdaPayload: true
+plugins:
+  - serverless-plugin-datadog
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /hello
+          method: POST
